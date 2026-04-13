@@ -39,9 +39,9 @@ const credentialsProvider = ({ children }) => {
     };
 
     return (  
-        <main value={{ credentials, setCredentials, addCredential, deleteCredential, updateCredential }}>
+        <CredentialsContext.Provider value={{ credentials, setCredentials, addCredential, deleteCredential, updateCredential }}>
             {children}
-        </main>
+        </CredentialsContext.Provider>
     )
 }
 
