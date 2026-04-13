@@ -1,4 +1,4 @@
-import {useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect } from "react";
 
 const CreditContext = createContext();
 
@@ -6,7 +6,7 @@ export default CreditContext;
 
 import React from 'react'
 
-const CreditProvider = ({ children }) => {
+export const CreditProvider = ({ children }) => {
 
     const [credits, setCredits] = useState([]);
 
@@ -17,7 +17,7 @@ const CreditProvider = ({ children }) => {
 
     useEffect(() => {
         fetchAllCredits();
-    }, [credits]);    
+    }, [credits]);
 
     const addCredit = (credit) => {
         const updatedCredits = [...credits, credit];
@@ -33,7 +33,7 @@ const CreditProvider = ({ children }) => {
 
     const updateCredit = (id, updatedData) => {
         const updatedCredits = credits.map((cred) =>
-          cred.id === id ? { ...cred, ...updatedData } : cred
+            cred.id === id ? { ...cred, ...updatedData } : cred
         );
         setCredits(updatedCredits);
         localStorage.setItem("credits", JSON.stringify(updatedCredits));
@@ -41,7 +41,7 @@ const CreditProvider = ({ children }) => {
 
 
     return (
-        <CreditContext.Provider value={{ credits, setCredits, addCredit, deleteCredit, updateCredit }}>
+        <CreditContext.Provider value={{ credits, addCredit, deleteCredit, updateCredit }}>
             {children}
         </CreditContext.Provider>
     )
