@@ -19,8 +19,14 @@ const CreditProvider = ({ children }) => {
         fetchAllCredits();
     }, [credits]);    
 
+    const addCredit = (credit) => {
+        const updatedCredits = [...credits, credit];
+        setCredits(updatedCredits);
+        localStorage.setItem("credits", JSON.stringify(updatedCredits));
+    }
+
     return (
-        <CreditContext.Provider value={{ credits, setCredits }}>
+        <CreditContext.Provider value={{ credits, setCredits, addCredit }}>
             {children}
         </CreditContext.Provider>
     )
