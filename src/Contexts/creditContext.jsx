@@ -25,8 +25,13 @@ const CreditProvider = ({ children }) => {
         localStorage.setItem("credits", JSON.stringify(updatedCredits));
     }
 
+    const deleteCredit = (id) => {
+        const updatedCredits = credits.filter((cred) => cred.id !== id);
+        setCredits(updatedCredits);
+        localStorage.setItem("credits", JSON.stringify(updatedCredits));
+    }
     return (
-        <CreditContext.Provider value={{ credits, setCredits, addCredit }}>
+        <CreditContext.Provider value={{ credits, setCredits, addCredit, deleteCredit }}>
             {children}
         </CreditContext.Provider>
     )
