@@ -143,11 +143,28 @@ function CreateCard({ type, Ind }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!name.trim() || !holder.trim() || !number.trim() || !expiry.trim() || !cvv.trim()) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    const cardPattern = /^\d{16}$/;
+    if (!cardPattern.test(number.replace(/\s/g, ""))) {
+      alert("Invalid card number format (16 digits required).");
+      return;
+    }
+    const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    if (!expiryPattern.test(expiry)) {
+      alert("Invalid expiry date format (MM/YY).");
+      return;
+    }
+    const cvvPattern = /^\d{3,4}$/;
+    if (!cvvPattern.test(cvv)) {
+      alert("Invalid CVV format (3 or 4 digits).");
+      return;
+    }
 
     if (isEditing && current) {
       updateCredit(current.id, { name, holder, number, expiry, cvv });
-      setEditingCredit(null);
-      window.location.reload();
       return;
     }
 
@@ -165,8 +182,6 @@ function CreateCard({ type, Ind }) {
     setNumber("");
     setExpiry("");
     setCvv("");
-    setEditingCredit(null);
-    window.location.reload();
   };
 
   return (
@@ -181,6 +196,7 @@ function CreateCard({ type, Ind }) {
             type="text"
             placeholder="Card Type"
             value={name}
+            required
             onChange={(e) => setName(e.target.value)}
             className="text-lg font-semibold text-gray-800 outline-none bg-transparent"
           />
@@ -194,6 +210,7 @@ function CreateCard({ type, Ind }) {
             type="text"
             placeholder="Card Holder"
             value={holder}
+            required
             onChange={(e) => setHolder(e.target.value)}
             className="w-full bg-transparent outline-none"
           />
@@ -206,6 +223,7 @@ function CreateCard({ type, Ind }) {
               type="text"
               placeholder="Card Number"
               value={number}
+              required
               onChange={(e) => setNumber(e.target.value)}
               className="w-full bg-transparent outline-none"
             />
@@ -218,6 +236,7 @@ function CreateCard({ type, Ind }) {
             type="text"
             placeholder="MM/YY"
             value={expiry}
+            required
             onChange={(e) => setExpiry(e.target.value)}
             className="w-full bg-transparent outline-none"
           />
@@ -230,6 +249,7 @@ function CreateCard({ type, Ind }) {
               type={showCvv ? "text" : "password"}
               placeholder="CVV"
               value={cvv}
+              required
               onChange={(e) => setCvv(e.target.value)}
               className="w-full bg-transparent outline-none"
             />

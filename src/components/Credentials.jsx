@@ -22,7 +22,7 @@ const iconMap = {
 };
 
 const Credentials = () => {
-  const { credentials ,deleteCredential} = useContext(CredentialsContext);
+  const { credentials, deleteCredential } = useContext(CredentialsContext);
   const [showPassword, setShowPassword] = useState({});
   const [editingCredential, setEditingCredential] = useState(null);
 
@@ -41,17 +41,17 @@ const Credentials = () => {
         <p className="text-gray-600">
           Manage and view your saved credentials securely.
         </p>
-        <CreateCredential  type={"save"}/>
+        <CreateCredential type={"save"} />
       </section>
-    {editingCredential && (
-            <section>
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">Edit Your Credentials</h1>
-        <p className="text-gray-600">
-          Manage and view your saved credentials securely.
-        </p>
-        <CreateCredential  type={"edit"} Ind={editingCredential} />
-      </section>
-    )}
+      {editingCredential && (
+        <section>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Edit Your Credentials</h1>
+          <p className="text-gray-600">
+            Manage and view your saved credentials securely.
+          </p>
+          <CreateCredential type={"edit"} Ind={editingCredential} />
+        </section>
+      )}
       {credentials.map((credential) => (
         <div
           key={credential.id}
@@ -117,10 +117,10 @@ export default Credentials;
 
 
 
-function CreateCredential({type, Ind}) {
+function CreateCredential({ type, Ind }) {
   const isEditing = type === "edit";
 
-  const { addCredential,credentials,updateCredential } = useContext(CredentialsContext);
+  const { addCredential, credentials, updateCredential } = useContext(CredentialsContext);
 
   const currentCredential = isEditing ? credentials.find(cred => cred.id === Ind) : null;
 
@@ -129,13 +129,25 @@ function CreateCredential({type, Ind}) {
   const [username, setUsername] = useState(currentCredential ? currentCredential.username : "");
   const [password, setPassword] = useState(currentCredential ? currentCredential.password : "");
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name.trim() || !gmail.trim() || !username.trim() || !password.trim()) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(gmail)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
     if (isEditing && currentCredential) {
       updateCredential(currentCredential.id, { name, gmail, username, password });
       return;
     }
-
     const newCredential = {
       id: Date.now(),
       name,
@@ -163,6 +175,7 @@ function CreateCredential({type, Ind}) {
               type="text"
               placeholder="Platform (e.g. Google)"
               value={name}
+              required
               onChange={(e) => setName(e.target.value)}
               className="w-full text-lg font-semibold text-gray-800 outline-none bg-transparent"
             />
@@ -175,6 +188,7 @@ function CreateCredential({type, Ind}) {
                 type="email"
                 placeholder="Email"
                 value={gmail}
+                required
                 onChange={(e) => setGmail(e.target.value)}
                 className="w-full bg-transparent outline-none"
               />
@@ -186,6 +200,7 @@ function CreateCredential({type, Ind}) {
                 type="text"
                 placeholder="Username"
                 value={username}
+                required
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full bg-transparent outline-none"
               />
@@ -197,6 +212,7 @@ function CreateCredential({type, Ind}) {
                 type="password"
                 placeholder="Password"
                 value={password}
+                required
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-transparent outline-none"
               />
