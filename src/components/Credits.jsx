@@ -165,6 +165,8 @@ function CreateCard({ type, Ind }) {
 
     if (isEditing && current) {
       updateCredit(current.id, { name, holder, number, expiry, cvv });
+      setEditingCredit(null);
+      window.location.reload();
       return;
     }
 
@@ -182,6 +184,8 @@ function CreateCard({ type, Ind }) {
     setNumber("");
     setExpiry("");
     setCvv("");
+    setEditingCredit(null);
+    window.location.reload();
   };
 
   return (
