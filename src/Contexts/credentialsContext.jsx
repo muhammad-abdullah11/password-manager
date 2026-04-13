@@ -28,9 +28,18 @@ const credentialsProvider = ({ children }) => {
         const updatedCredentials = credentials.filter((cred) => cred.id !== id);
         setCredentials(updatedCredentials);
         localStorage.setItem("credentials", JSON.stringify(updatedCredentials));
-    }   
+    }
+    
+    const updateCredential = (id, updatedData) => {
+        const updatedCredentials = credentials.map((cred) =>
+          cred.id === id ? { ...cred, ...updatedData } : cred
+        );
+        setCredentials(updatedCredentials);
+        localStorage.setItem("credentials", JSON.stringify(updatedCredentials));
+    };
+
     return (  
-        <main value={{ credentials, setCredentials, addCredential, deleteCredential }}>
+        <main value={{ credentials, setCredentials, addCredential, deleteCredential, updateCredential }}>
             {children}
         </main>
     )
