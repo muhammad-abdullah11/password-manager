@@ -1,5 +1,6 @@
 import React from 'react'
 import Credentials from './Credentials'
+import Credits from './Credits'
 
 const HomePage = () => {
   return (
@@ -20,6 +21,10 @@ const HomePage = () => {
         <section className='py-12'>
             <h2 className='font-bold text-2xl font-serif'>Your Credentials</h2>
             <Credentials />
+        </section>
+        <section>
+            <h2 className='font-bold text-2xl font-serif'>Your Credit Cards</h2>
+            <Credits />
         </section>
     </main>
   )
