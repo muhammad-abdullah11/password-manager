@@ -6,16 +6,18 @@ export default CredentialsContext;
 
 import React from 'react'
 
-const credentialsProvider = ({ children }) => {
+const CredentialsProvider = ({ children }) => {
     const [credentials, setCredentials] = useState([]);
     const fetchAllCredentials = () => {
-        localStorage.getItem("credentials") && setCredentials(JSON.parse(localStorage.getItem("credentials")));
-        setCredentials(JSON.parse(localStorage.getItem("credentials")) || []);
+        const stored = localStorage.getItem("credentials");
+        if (stored) {
+            setCredentials(JSON.parse(stored));
+        }
     };
 
     useEffect(() => {
         fetchAllCredentials();
-    }, [credentials]);
+    }, []);
 
   
     const addCredential = (credential) => {
@@ -45,4 +47,4 @@ const credentialsProvider = ({ children }) => {
     )
 }
 
-export { credentialsProvider }
+export { CredentialsProvider }
