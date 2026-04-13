@@ -30,8 +30,18 @@ const CreditProvider = ({ children }) => {
         setCredits(updatedCredits);
         localStorage.setItem("credits", JSON.stringify(updatedCredits));
     }
+
+    const updateCredit = (id, updatedData) => {
+        const updatedCredits = credits.map((cred) =>
+          cred.id === id ? { ...cred, ...updatedData } : cred
+        );
+        setCredits(updatedCredits);
+        localStorage.setItem("credits", JSON.stringify(updatedCredits));
+    };
+
+
     return (
-        <CreditContext.Provider value={{ credits, setCredits, addCredit, deleteCredit }}>
+        <CreditContext.Provider value={{ credits, setCredits, addCredit, deleteCredit, updateCredit }}>
             {children}
         </CreditContext.Provider>
     )
